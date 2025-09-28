@@ -1,26 +1,151 @@
+@import "@daveyplate/better-auth-ui/css";
 @import "tailwindcss";
+@import "tw-animate-css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-circular-std-book);
+  --font-mono: var(--font-space-mono);
+  --font-medium: var(--font-circular-std-medium);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --radius: 0.625rem;
+  --background: #FEFAF1;
+  --foreground: #34051C;
+  --card: #FFFFFF;
+  --card-foreground: #34051C;
+  --popover: #FFFFFF;
+  --popover-foreground: #34051C;
+  --primary: #34051C;
+  --primary-foreground: #FEFAF1;
+  --secondary: #F6EFE1;
+  --secondary-foreground: #34051C;
+  --muted: #F6EFE1;
+  --muted-foreground: #34051C;
+  --accent: #F6EFE1;
+  --accent-foreground: #34051C;
+  --destructive: #EF4864;
+  --border: #ECE6E0;
+  --input: #ECE6E0;
+  --ring: #34051C;
+  --chart-1: #EF4864;
+  --chart-2: #F6EFE1;
+  --chart-3: #ECE6E0;
+  --chart-4: #34051C;
+  --chart-5: #FEFAF1;
+  --sidebar: #F6EFE1;
+  --mainbutton: #8D2438;
+  --sidebar-foreground: #34051C;
+  --sidebar-primary: #34051C;
+  --sidebar-primary-foreground: #FEFAF1;
+  --sidebar-accent: #ECE6E0;
+  --sidebar-accent-foreground: #34051C;
+  --sidebar-border: #ECE6E0;
+  --sidebar-ring: #34051C;
+}
+
+.dark {
+  --background: #34051C;
+  --foreground: #FEFAF1;
+  --card: #34051C;
+  --card-foreground: #FEFAF1;
+  --popover: #34051C;
+  --popover-foreground: #FEFAF1;
+  --primary: #FEFAF1;
+  --primary-foreground: #34051C;
+  --secondary: #34051C;
+  --secondary-foreground: #FEFAF1;
+  --muted: #34051C;
+  --muted-foreground: #F6EFE1;
+  --accent: #34051C;
+  --accent-foreground: #FEFAF1;
+  --destructive: #EF4864;
+  --border: rgba(236, 230, 224, 0.2);
+  --input: rgba(246, 239, 225, 0.15);
+  --ring: #F6EFE1;
+  --chart-1: #EF4864;
+  --chart-2: #F6EFE1;
+  --chart-3: #ECE6E0;
+  --chart-4: #FEFAF1;
+  --chart-5: #34051C;
+  --sidebar: #34051C;
+  --sidebar-foreground: #FEFAF1;
+  --sidebar-primary: #F6EFE1;
+  --sidebar-primary-foreground: #34051C;
+  --sidebar-accent: rgba(246, 239, 225, 0.1);
+  --sidebar-accent-foreground: #FEFAF1;
+  --sidebar-border: rgba(236, 230, 224, 0.2);
+  --sidebar-ring: #F6EFE1;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  .line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+  }
+  
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+  
+  .line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+  }
 }
