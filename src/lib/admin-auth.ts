@@ -1,6 +1,10 @@
 import { NextRequest } from "next/server";
 import crypto from "crypto";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { PrismaClient } from "@/generated/prisma";
 
+const prisma = new PrismaClient();
 const ADMIN_SESSION_COOKIE = "admin_session";
 const ADMIN_SESSION_SECRET = process.env.BETTER_AUTH_SECRET || "fallback-secret";
 
@@ -30,8 +34,33 @@ export function verifyAdminSession(request: NextRequest): boolean {
     }
 }
 
-export function requireAdminAuth(request: NextRequest) {
-    if (!verifyAdminSession(request)) {
+export async function verifyBetterAuthAdmin(): Promise<boolean> {
+    try {
+        const session = await auth.api.getSession({
+            headers: await headers()
+        });
+
+        if (!session?.user?.id) return false;
+
+        // Check if user is admin in database
+        const user = await prisma.user.findUnique({
+            where: { id: session.user.id },
+            select: { isAdmin: true }
+        });
+
+        return user?.isAdmin === true;
+    } catch (error) {
+        console.error('Better Auth admin check error:', error);
+        return false;
+    }
+}
+
+export async function requireAdminAuth(request: NextRequest) {
+    // Check both admin session types
+    const hasAdminSession = verifyAdminSession(request);
+    const hasBetterAuthAdmin = await verifyBetterAuthAdmin();
+
+    if (!hasAdminSession && !hasBetterAuthAdmin) {
         throw new Error("Unauthorized: Admin access required");
     }
 }

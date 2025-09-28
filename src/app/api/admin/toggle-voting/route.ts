@@ -5,7 +5,7 @@ import path from "path";
 
 export async function POST(request: NextRequest) {
   try {
-    requireAdminAuth(request);
+    await requireAdminAuth(request);
 
     const { enabled } = await request.json();
     

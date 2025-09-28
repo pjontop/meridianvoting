@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 export async function GET(request: NextRequest) {
   try {
-    requireAdminAuth(request);
+    await requireAdminAuth(request);
 
     const users = await prisma.user.findMany({
       include: {
