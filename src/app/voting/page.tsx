@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
-import { PrismaClient } from "@/generated/prisma";
+import { db } from "@/lib/db";
 import { headers } from "next/headers";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -11,7 +11,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { VoteButton } from "@/components/vote-button";
 
-const prisma = new PrismaClient();
+// Enable ISR with 60 second revalidation
+export const revalidate = 60;
 
 export default async function VotingPage() {
   const session = await auth.api.getSession({
@@ -19,46 +20,14 @@ export default async function VotingPage() {
   });
 
   if (!session) {
-    redirect("/auth/sign-in");
+    redirect("/sign-in");
   }
 
+  // Use cached database queries
   const [projects, userVotes, userProjectIds] = await Promise.all([
-    prisma.project.findMany({
-      include: {
-        members: {
-          include: {
-            user: {
-              select: {
-                id: true,
-                name: true,
-              }
-            }
-          }
-        },
-        votes: {
-          select: {
-            userId: true,
-          }
-        },
-        _count: {
-          select: {
-            votes: true
-          }
-        }
-      },
-      orderBy: [
-        { votes: { _count: "desc" } },
-        { createdAt: "desc" }
-      ]
-    }),
-    prisma.vote.findMany({
-      where: { userId: session.user.id },
-      select: { projectId: true }
-    }),
-    prisma.projectMember.findMany({
-      where: { userId: session.user.id },
-      select: { projectId: true }
-    })
+    db.getProjectsWithVotes(),
+    db.getUserVotes(session.user.id),
+    db.getUserProjects(session.user.id)
   ]);
 
   const userVoteSet = new Set(userVotes.map(vote => vote.projectId));

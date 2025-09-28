@@ -12,7 +12,7 @@ export default async function Dashboard() {
   });
 
   if (!session) {
-    redirect("/auth/sign-in");
+    redirect("/sign-in");
   }
 
   const user = session.user;

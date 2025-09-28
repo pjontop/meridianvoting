@@ -24,8 +24,12 @@ export default function SignIn() {
     setMessage("");
 
     try {
-      const result = await authClient.sendMagicLink({
+      const result = await authClient.signIn.magicLink({
         email,
+        name: email.split('@')[0], // Use email prefix as default name
+        callbackURL: "/dashboard",
+        newUserCallbackURL: "/welcome",
+        errorCallbackURL: "/auth/sign-in?error=auth_failed",
       });
       
       if (result.data) {

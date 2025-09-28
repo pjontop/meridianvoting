@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { PrismaClient } from "@/generated/prisma";
+import { db, prisma } from "@/lib/db";
 import { headers } from "next/headers";
 import { voteSchema, logSecurityEvent } from "@/lib/validation";
-
-const prisma = new PrismaClient();
 
 export async function POST(request: NextRequest) {
   try {
@@ -21,6 +19,9 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
+    // Invalidate cache after vote change
+    await db.invalidateUserCache(session.user.id);
+    await db.invalidateProjectCache();
     const validationResult = voteSchema.safeParse(body);
 
     if (!validationResult.success) {

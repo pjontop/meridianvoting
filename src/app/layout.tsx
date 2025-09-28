@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Space_Mono } from "next/font/google";
 import { Providers } from "./providers";
+import { QueryProvider } from "@/components/providers/query-provider";
 import "./globals.css";
 
 const circularStdBook = localFont({
@@ -37,7 +38,9 @@ export default function RootLayout({
       <body
         className={`${circularStdBook.variable} ${circularStdMedium.variable} ${spaceMono.variable} antialiased`}
       >
-        <Providers>{children}</Providers>
+        <QueryProvider>
+          <Providers>{children}</Providers>
+        </QueryProvider>
       </body>
     </html>
   );

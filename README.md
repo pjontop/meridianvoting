@@ -1,11 +1,22 @@
-# Meridian - Peer Voting Platform
+# Meridian Voting Platform
 
-Meridian is a modern peer voting platform where users can create and join project teams, showcase their work, and participate in peer voting. Built with Next.js, Prisma, and BetterAuth.
+A secure, production-ready voting platform for hackathons and competitions with magic link authentication, project management, and comprehensive admin controls.
 
-## ✨ Features
+## 🚀 Features
 
-### Core Functionality
-- **User Authentication**: Secure email/password authentication with email verification via BetterAuth
+### User Features
+- **Magic Link Authentication**: Secure email-based authentication with CSV whitelist
+- **Project Management**: Create projects with GitHub repos, demo links, and media
+- **Team Collaboration**: Join teams using 4-digit codes (max 3 members per team)
+- **Voting System**: Vote for up to 3 projects (cannot vote for own projects)
+- **Rate Limiting**: Built-in protection against spam and abuse
+
+### Admin Features
+- **Admin Panel**: Comprehensive dashboard with user/project management
+- **Voting Control**: Enable/disable voting periods
+- **Team Monitoring**: Alerts for teams exceeding member limits
+- **Leaderboard**: Real-time voting results and project rankings
+- **Security Logging**: Detailed audit trails for all actions
 - **Project Creation**: Submit projects with GitHub repo, demo links, images, and descriptions
 - **Team Collaboration**: Join projects using unique 8-character join codes
 - **Peer Voting**: Vote for up to 3 different projects (self-voting prevented)
